@@ -1,16 +1,184 @@
-# React + Vite
+# Mediterranean Cruise 2016 Memorial
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modernized React + Vite version of the original ASP.NET MVC Mediterranean cruise countdown from 2016. This memorial captures the excitement and anticipation leading up to the September 15, 2016 cruise departure.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- ⏱️ **Time Since Counter**: Live countdown showing days, hours, minutes, and seconds since the cruise
+- 🚢 **Animated Cruise Ship**: Trigonometric flight path animation across the screen
+- 🌊 **Interactive Wave Animation**: HTML5 Canvas water physics with bubbles
+- 📹 **Embedded Memory Video**: YouTube video of cruise memories
+- 📱 **Responsive Design**: Works perfectly on desktop and mobile
+- 🐳 **Dockerized**: Easy deployment with Docker Compose
 
-## React Compiler
+## Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Prerequisites
 
-## Expanding the ESLint configuration
+- Docker and Docker Compose installed
+- Port 8081 available (or modify docker-compose.yml)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Quick Start
+
+1. **Build and run with Docker Compose:**
+   ```bash
+   docker-compose up -d
+   ```
+
+2. **Access the app:**
+   Open your browser to [http://localhost:8081](http://localhost:8081)
+
+3. **Stop the app:**
+   ```bash
+   docker-compose down
+   ```
+
+### Alternative: Build and run with Docker directly
+
+```bash
+# Build the image
+docker build -t cruise-memorial:latest .
+
+# Run the container
+docker run -d -p 8081:80 --name cruisememory cruise-memorial:latest
+
+# Stop the container
+docker stop cruisememory
+docker rm cruisememory
+```
+
+## Development
+
+### Local Development Setup
+
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+2. **Run development server:**
+   ```bash
+   npm run dev
+   ```
+
+3. **Build for production:**
+   ```bash
+   npm run build
+   ```
+
+4. **Preview production build:**
+   ```bash
+   npm run preview
+   ```
+
+## Technical Stack
+
+- **Frontend**: React 19 + Vite
+- **Styling**: Custom CSS (preserved from original)
+- **Animation**: Pure JavaScript (no jQuery!)
+- **Canvas**: HTML5 Canvas for wave physics
+- **Server**: nginx (Alpine)
+- **Container**: Docker multi-stage build
+
+## Project Structure
+
+```
+cruise-memorial/
+├── public/
+│   ├── images/           # Original cruise images
+│   ├── css/              # Site.css (path-fixed)
+│   ├── wave.js           # Original wave physics
+│   └── favicon.svg       # Ship emoji favicon
+├── src/
+│   ├── components/
+│   │   ├── CountdownClock.jsx       # Time since counter
+│   │   ├── CruiseShipAnimation.jsx  # Animated ship
+│   │   ├── WaveAnimation.jsx        # Canvas waves
+│   │   └── YouTubePlayer.jsx        # Embedded video
+│   ├── App.jsx
+│   ├── App.css
+│   ├── main.jsx
+│   └── index.css
+├── Dockerfile
+├── docker-compose.yml
+├── nginx.conf
+├── .github/
+│   └── workflows/
+│       └── deploy.yml    # GitHub Actions CI/CD
+└── README.md
+```
+
+## Original App (2016)
+
+This memorial is a modernized recreation of the ASP.NET MVC application originally built as a countdown to the Mediterranean cruise departure on September 15, 2016. The original featured:
+
+- Countdown clock to cruise departure (12:30 PM)
+- Animated airplane/ship flying across the screen
+- Trigonometric flight path calculations
+- Wave.js interactive water animation
+- Beautiful Mediterranean-themed background
+
+## Deployment
+
+### GitHub Actions
+
+The project includes automated deployment via GitHub Actions:
+
+- **Trigger**: Push to `master` or `main` branch
+- **Runner**: Self-hosted
+- **Process**:
+  1. Builds Docker image
+  2. Stops old container
+  3. Runs new container on `app-network`
+  4. Cleans up old images
+
+### Configuration
+
+| Setting | Value |
+|---------|-------|
+| **Container Name** | cruisememory |
+| **Image Tag** | cruisememory:latest |
+| **Port** | 8081:80 |
+| **Network** | app-network |
+| **Restart Policy** | unless-stopped |
+
+## Features Deep Dive
+
+### Countdown Clock
+- Shows elapsed time since September 15, 2016 at 12:30 PM
+- Updates every second
+- Responsive design for mobile
+- Memorial text: "Time Since Our Mediterranean Adventure"
+
+### Cruise Ship Animation
+- Ported from original LoadingPage1.1.js
+- Complex trigonometric calculations for flight paths
+- Random position generation
+- Smooth transitions and rotations
+- Ship flips when moving right-to-left
+
+### Wave Animation
+- Ported from original wave.js (jQuery removed!)
+- HTML5 Canvas physics simulation
+- Interactive mouse movement
+- Rising bubbles with realistic physics
+- Water density and air density calculations
+- Random impulses to keep waves moving
+
+### YouTube Video
+- Embedded cruise memory video
+- Centered positioning
+- Responsive 16:9 aspect ratio
+- Elegant styling with shadows and borders
+
+## License
+
+Personal memorial project - not for commercial use.
+
+## Acknowledgments
+
+Made with ❤️ in memory of our Mediterranean Adventure, September 2016
+
+---
+
+🚢 Bon Voyage! ⛵
