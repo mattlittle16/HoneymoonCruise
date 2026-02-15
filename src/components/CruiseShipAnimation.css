@@ -1,0 +1,16 @@
+.Plane {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 41;
+  width: 106px;
+  height: auto;
+}
+
+.Plane.hidden {
+  opacity: 0;
+}
+
+.Plane.visible {
+  opacity: 1;
+}

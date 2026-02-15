@@ -1,0 +1,45 @@
+name: Deploy CruiseMemory to Homelab
+
+on:
+  push:
+    branches:
+      - master
+      - main
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            -t cruisememory:latest \
+            -t cruisememory:${{ github.sha }} \
+            .
+
+      - name: Stop and remove old container
+        run: |
+          docker stop cruisememory || true
+          docker rm cruisememory || true
+
+      - name: Run new container
+        run: |
+          docker run -d \
+            --name cruisememory \
+            --restart unless-stopped \
+            --network app-network \
+            cruisememory:latest
+
+      - name: Clean up old images
+        run: |
+          docker image prune -f
+
+      - name: Verify deployment
+        run: |
+          sleep 5
+          docker ps | grep cruisememory
+          echo "Deployment successful! Container is running."

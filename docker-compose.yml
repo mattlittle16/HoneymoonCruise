@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  cruise-memorial:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cruise-memorial:latest
+    container_name: cruise-memorial-app
+    ports:
+      - "8081:80"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    labels:
+      - "com.cruise.memorial=true"
+      - "com.cruise.memorial.version=1.0"
+      - "com.cruise.memorial.description=Mediterranean Cruise 2016 Memorial"
+
+networks:
+  default:
+    name: cruise-network
